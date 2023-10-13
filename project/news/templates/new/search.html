@@ -1,0 +1,51 @@
+{% extends 'new/default.html' %}
+
+{% load filters %}
+
+{% load custom_tags %}
+
+{% block title %}Поиск публикации{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Поиск публикации</h1>
+        <form action="" method="get">
+            {% csrf_token %}
+
+           {{ filter.form.as_p }}
+
+           <input type="submit" value="Найти" />
+        </form>
+        {% if new %}
+            {% for el in new %}
+                <div class="alert alert-warning">
+                    <h3>{{ el.title|censorship }}</h3>
+                    <p>{{ el.text|censorship |truncatechars:20 }}</p>
+                    <p>{{ el.date|date:'d.M.Y' }}</p>
+                    <a href="{% url 'news_id' el.id %}" class="btn btn-warning">Читать дальше</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p> Новоcтей нет!</p>
+        {% endif %}
+
+
+       {% if page_obj.has_previous %}
+           <a href="?{% url_replace page=1 %}">1</a>
+           {% if page_obj.previous_page_number != 1 %}
+               ...
+               <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+           {% endif %}
+       {% endif %}
+
+       {{ page_obj.number }}
+
+       {% if page_obj.has_next %}
+           <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+           {% if paginator.num_pages != page_obj.next_page_number %}
+               ...
+               <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+           {% endif %}
+       {% endif %}
+    </div>
+{% endblock %}

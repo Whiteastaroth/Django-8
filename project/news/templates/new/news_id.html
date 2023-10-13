@@ -1,0 +1,15 @@
+{% extends 'new/default.html'%}
+{% load filters %}
+
+{% block title %}{{ new.title|censorship}}{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>{{ new.title|censorship }}</h1>
+        <p align="left">дата публикации  <b>{{ new.date|date:'d.M.Y'}}</b></p>
+        <p>{{ new.text|censorship }}</p>
+        <a href="{% url 'delete' new.id %}" class="btn btn-danger">Удалить</a>
+        <a href="{% url 'updata' new.id %}" class="btn btn-info">Редактировать</a>
+
+    </div>
+{% endblock %}

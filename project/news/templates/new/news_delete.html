@@ -1,0 +1,16 @@
+{% extends 'new/default.html'%}
+
+{% load filters %}
+
+{% block title %}Удаление публикации{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Удаление публикации</h1>
+        <form method="post">
+            {% csrf_token %}
+            <span>{{ error }}</span><!--если ошибок не было, то эта переменная будет пустой и мы её не увидим-->
+            <button class="btn btn-success" type ="submit">Удалить статью</button>
+        </form>
+    </div>
+{% endblock %}
